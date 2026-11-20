@@ -15,14 +15,16 @@ var db *sql.DB
 
 func OpenDB() *sql.DB {
 	mysqlUser := os.Getenv("MYSQL_USER")
-	mysqlUserPwd := os.Getenv("MYSQL_USER_PWD")
+	mysqlPwd := os.Getenv("MYSQL_PWD")
+	mysqlHost := os.Getenv("MYSQL_HOST")
 	mysqlDatabase := os.Getenv("MYSQL_DATABASE")
 
-	if mysqlUser == "" || mysqlUserPwd == "" || mysqlDatabase == "" {
-		log.Fatal("MYSQL_USER、MYSQL_USER_PWD、MYSQL_DATABASE is empty")
+	if mysqlUser == "" || mysqlPwd == "" || mysqlHost == "" || mysqlDatabase == "" {
+		log.Fatal("MYSQL_USER、MYSQL_PWD、MYSQL_HOST、MYSQL_DATABASE is empty")
 	}
 
-	_db, err := sql.Open("mysql", fmt.Sprintf("%s:%s@(localhost:3306)/%s", mysqlUser, mysqlUserPwd, mysqlDatabase))
+	connStr := fmt.Sprintf("%s:%s@%s/%s", mysqlUser, mysqlPwd, mysqlHost, mysqlDatabase)
+	_db, err := sql.Open("mysql", connStr)
 	if err != nil {
 		log.Fatalf("fail: sql.Open, %v\n", err)
 	}
