@@ -23,7 +23,7 @@ func OpenDB() *sql.DB {
 		log.Fatal("MYSQL_USER、MYSQL_PWD、MYSQL_HOST、MYSQL_DATABASE is empty")
 	}
 
-	connStr := fmt.Sprintf("%s:%s@%s/%s", mysqlUser, mysqlPwd, mysqlHost, mysqlDatabase)
+	connStr := fmt.Sprintf("%s:%s@%s/%s?allowCleartextPasswords=true", mysqlUser, mysqlPwd, mysqlHost, mysqlDatabase)
 	_db, err := sql.Open("mysql", connStr)
 	if err != nil {
 		log.Fatalf("fail: sql.Open, %v\n", err)
